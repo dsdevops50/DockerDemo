@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - "master"
+      - "Dev"
 
 jobs:
   build:
@@ -22,15 +23,11 @@ jobs:
       - run: sudo apt install zip unzip
       - run: zip -r BuildArtifact.zip build
 
-      - name: Upload artifact
-        uses: zoispag/action-s3-upload-artifact@v1
-        id: s3
+      - uses: shallwefootball/s3-upload-action@master
+        name: Upload S3
+        id: S3
         with:
-              access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-              secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-              bucket: ${{ secrets.AWS_BUCKET }}
-              key: MyBuild
-              path: BuildArtifact.zip
-
-      - name: Output path
-        run: echo ${{ steps.s3.outputs.object_path }}
+           aws_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
+           aws_bucket: ${{ secrets.AWS_BUCKET }}
+           source_dir: 'build'
