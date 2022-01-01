@@ -31,5 +31,5 @@ jobs:
           secretAccessKey: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
           awsBucket: ${{ secrets.AWS_BUCKET }}    
           s3Subfolder: MyBuild
-          sourceFolder: build
+          sourceFolder: BuildArtifact.zip
 
