@@ -20,11 +20,8 @@ jobs:
       - run: npm run build
       - run: npm test
       - run: sudo apt install zip unzip
-      - run: ls
-      - run: pwd
       - run: zip -r BuildArtifact.zip build
-      - run: ls
-
+      
       - name: Send mail
         if: failure()
         uses: dawidd6/action-send-mail@v2
@@ -52,8 +49,8 @@ jobs:
               access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
               secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
               bucket: ${{ secrets.AWS_BUCKET }}
-              key: MyBuild
-              path: BuildArtifact.zip
+              key: BuildArtifact.zip
+              path: MyBuild
 
       - name: Output path
         run: echo ${{ steps.s3.outputs.object_path }}
