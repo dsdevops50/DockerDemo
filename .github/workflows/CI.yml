@@ -19,6 +19,10 @@ jobs:
       - run: npm install
       - run: npm run build
       - run: npm test
+      - run: mkdir BuildArtifact
+      - run: sudo apt install zip unzip
+      - run: copy ./build/8 ./BuildArtifact/
+      - run: zip -r BuildArtifact.zip BuildArtifact
 
       - name: Send mail
         if: failure()
@@ -39,3 +43,17 @@ jobs:
           to: dsyadav50@gmail.com
           # from email name
           from: Neeraj Singh
+
+      - name: Upload artifact
+        uses: zoispag/action-s3-upload-artifact@v1
+        id: s3
+        with:
+              access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+              secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+              bucket: ${{ secrets.AWS_BUCKET }}
+              bucket_root: Artifacts
+              key: BuildArtifact.zip
+              path: MyBuild/
+
+      - name: Output path
+        run: echo ${{ steps.s3.outputs.object_path }}
