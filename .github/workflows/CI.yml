@@ -22,7 +22,6 @@ jobs:
       - run: npm test
       - run: sudo apt install zip unzip
       - run: zip -r BuildArtifact.zip build
-      
                  
       - name: action-upload-to-s3
         uses: wixplosives/action-upload-to-s3@v10
@@ -30,6 +29,5 @@ jobs:
           accessKeyId: ${{ secrets.AWS_ACCESS_KEY_ID }}
           secretAccessKey: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
           awsBucket: ${{ secrets.AWS_BUCKET }}    
-          s3Subfolder: MyBuild
-          sourceFolder: BuildArtifact.zip
-
+          s3Subfolder: MyBuild/$(Get-Date -Format yyyyMMddhhmmss)
+          sourceFolder: Build
