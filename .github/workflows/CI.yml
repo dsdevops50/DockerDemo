@@ -30,4 +30,4 @@ jobs:
           secretAccessKey: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
           awsBucket: ${{ secrets.AWS_BUCKET }}    
           s3Subfolder: MyBuild/$(Get-Date -Format yyyyMMddhhmmss)
-          sourceFolder: Build
+          sourceFolder: build
