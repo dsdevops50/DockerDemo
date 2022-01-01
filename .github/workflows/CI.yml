@@ -21,7 +21,7 @@ jobs:
       - run: npm test
       - run: mkdir BuildArtifact
       - run: sudo apt install zip unzip
-      - run: cp ~/build/* /BuildArtifact/
+      - run: cp build/* BuildArtifact/
       - run: zip -r BuildArtifact.zip BuildArtifact
 
       - name: Send mail
