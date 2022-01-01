@@ -21,8 +21,10 @@ jobs:
       - run: npm test
       - run: mkdir BuildArtifact
       - run: sudo apt install zip unzip
-      - run: sudo cp -R /build/* /BuildArtifact
-      - run: sudo zip -r BuildArtifact.zip BuildArtifact
+      - run: ls
+      - run: pwd
+      - run: cp -R /build/* /BuildArtifact
+      - run: zip -r BuildArtifact.zip BuildArtifact
 
       - name: Send mail
         if: failure()
