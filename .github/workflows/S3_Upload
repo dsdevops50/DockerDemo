@@ -1,0 +1,22 @@
+name: Upload artifact to S3
+
+on: [push]
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+ name: Upload artifact
+        uses: zoispag/action-s3-upload-artifact@v1
+        id: s3
+        with:
+          access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          bucket: ${{ secrets.AWS_BUCKET }}
+          bucket_root: Artifacts
+          key: BuildArtifact.zip
+          path: MyBuild/
+
+      - name: Output path
+        run: echo ${{ steps.s3.outputs.object_path }}
