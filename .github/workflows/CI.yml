@@ -31,5 +31,5 @@ jobs:
           accessKeyId: ${{ secrets.AWS_ACCESS_KEY_ID }}
           secretAccessKey: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
           awsBucket: ${{ secrets.AWS_BUCKET }}    
-          s3Subfolder: MyBuild/${Date}
+          s3Subfolder: MyBuild/${env.Date}
           sourceFolder: build
