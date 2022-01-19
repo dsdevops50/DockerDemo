@@ -30,7 +30,7 @@ jobs:
             npm run build
         - name: Build docker Image
           run: |
-            docker build -t dockerdemo:latest .
+            docker build -t dsdevops50/dockerdemo:latest .
         - name: Docker image push
           run: |
             docker push dsdevops50/dockerdemo:latest
