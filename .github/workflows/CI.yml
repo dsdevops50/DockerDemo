@@ -17,12 +17,13 @@ jobs:
 
     steps:
         - uses: actions/checkout@v1
-        - run: npm install
-        - run: npm run build
-        - run: npm test
-        - run: set -x
-        - run: docker version
-        - run: docker build -t dockerdemo:latest .
+        - name: Code Build
+          run: |
+            npm install
+            npm run build
+        - name: Build docker Image
+          run: |
+            docker build -t dockerdemo:latest .
 
           
           
