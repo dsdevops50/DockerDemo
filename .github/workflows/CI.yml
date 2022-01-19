@@ -17,13 +17,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
-      - run: npm install
-      - run: npm run build
-      - run: npm test
-      - uses: docker-practice/actions-setup-docker@master
       - run: |
+          npm install
+          npm run build
+          npm test
           set -x
           docker version
+          docker build -t dockerdemo:latest .
+
+          
           
       # - name: Send mail
       #   if: always()
