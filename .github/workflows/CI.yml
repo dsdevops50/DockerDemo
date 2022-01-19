@@ -20,7 +20,14 @@ jobs:
       - run: npm install
       - run: npm run build
       - run: npm test
-     
+      
+      - name: docker setup
+      - uses: docker-practice/actions-setup-docker@master
+      - run: |
+              set -x
+              docker version
+              docker 
+          
       # - name: Send mail
       #   if: always()
       #   uses: dawidd6/action-send-mail@v2
