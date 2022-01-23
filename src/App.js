@@ -9,7 +9,7 @@ function App() {
         <p>
           Edit <code>src/App.js</code> and save to reload.Welcome to my test site.
         </p>
-        <h1 class="title">Hello ! This is my Testing site</h1>
+        <h1 class="title">Hello ! This is my new Testing site</h1>
         <p id="currentTime"></p>
         <script src="script.js"></script>
         <a
