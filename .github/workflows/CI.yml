@@ -6,6 +6,7 @@ on:
     branches:
       - "master"
       - "Dev"
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -15,22 +16,84 @@ jobs:
         node-version: [16.x]
 
     steps:
-      - uses: actions/checkout@v1
-      - run: npm install
-      - run: npm run build
-      - run: npm test
-      - run: sudo apt install zip unzip
-      - run: zip -r BuildArtifact.zip build
+        - name: Code Clone from GitHub
+          uses: actions/checkout@v1
 
-      - name: Upload artifact
-        uses: zoispag/action-s3-upload-artifact@v1
-        id: s3
-        with:
-              access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-              secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-              bucket: ${{ secrets.AWS_BUCKET }}
-              key: MyBuild
-              path: BuildArtifact.zip
+        - name: Code Build
+          run: |
+            npm install
+            npm run build
 
-      - name: Output path
-        run: echo ${{ steps.s3.outputs.object_path }}
+        - name: Docker login
+          env:
+            DOCKER_USER: ${{ secrets.DOCKER_USER }}
+            DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          run: |
+            docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+
+        - name: Docker image build and push to docker repo
+          run: |
+            docker build -t dsdevops50/dockerdemo:latest .
+            docker push dsdevops50/dockerdemo:latest
+
+
+
+
+
+
+   #---------------Docker Image build and upload on AWS ECR------------------    
+        # - name: Configure AWS credentials
+        #   uses: aws-actions/configure-aws-credentials@v1
+        #   with:
+        #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        #     aws-region: ap-south-1
+
+        # - name: Login to Amazon ECR
+        #   id: login-ecr
+        #   uses: aws-actions/amazon-ecr-login@v1
+
+        # - name: Build, tag, and push image to Amazon ECR
+        #   env:
+        #     ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        #     ECR_REPOSITORY: dockerdemo
+        #     IMAGE_TAG: ${{ github.sha }}
+        #   run: |
+        #     docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        #     docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+
+
+
+
+          
+      #---------------Send email configuration------------------    
+      # - name: Send mail
+      #   if: always()
+      #   uses: dawidd6/action-send-mail@v2
+      #   with:
+      #     # mail server settings
+      #     server_address: smtp.gmail.com
+      #     server_port: 465
+      #     # user credentials
+      #     username: ${{ secrets.EMAIL_USERNAME }}
+      #     password: ${{ secrets.EMAIL_PASSWORD }}
+          
+      #     # email subject
+      #     subject: ${{ github.job }} job of ${{ github.repository }} has ${{ job.status }}
+      #     # email body as text
+      #     body: ${{ github.job }} job in worflow ${{ github.workflow }} of ${{ github.repository }} has ${{ job.status }}
+      #     # comma-separated string, send email to
+      #     to: dsyadav50@gmail.com
+      #     # from email name
+      #     from: Neeraj Singh
+
+
+      # - name: action-upload-to-s3
+      #   uses: wixplosives/action-upload-to-s3@v10
+      #   with:
+      #     accessKeyId: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     secretAccessKey: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
+      #     awsBucket: ${{ secrets.AWS_BUCKET }}    
+      #     s3Subfolder: MyBuild
+      #     sourceFolder: build
