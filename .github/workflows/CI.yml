@@ -3,6 +3,7 @@ name: Ract CI
 
 on:
   workflow_dispatch:
+  
 #on: 
 #  push:
 #    branches:
