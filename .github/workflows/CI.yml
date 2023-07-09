@@ -1,11 +1,13 @@
 
 name: Ract CI
 
-on: 
-  push:
-    branches:
-      - "master"
-      - "Dev"
+on:
+  workflow_dispatch:
+#on: 
+#  push:
+#    branches:
+#      - "master"
+#      - "Dev"
 
 jobs:
   build:
