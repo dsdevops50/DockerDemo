@@ -4,5 +4,5 @@
 # COPY build/ .
 
 FROM nginx
-WORKDIR /usr/share/nginx/html
+WORKDIR /usr/share/nginx/htmll
 COPY build/ /usr/share/nginx/html
